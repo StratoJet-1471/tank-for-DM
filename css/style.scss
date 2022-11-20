@@ -1,0 +1,202 @@
+$body-container-width: 400px;
+$body-container-height: 90px;
+
+$body-height: 30%;
+
+$tracks-container-width: $body-container-width * 0.98;
+$tracks-container-height: $body-container-height * 0.7;
+$tracks-border-width: 3px;
+
+$track-wheel-diameter: 50px;
+
+$head-height: 60px;
+$head-width: 150px;
+$head-turret-width: 40px;
+$head-turret-height: 10px;
+$head-border-top-left-radius: 100px;
+$head-border-top-right-radius: 100px;
+$gun-container-bottom: $head-height * 0.5;
+$gun-container-left: $head-width * 0.8;
+$gun-container-height: $head-height/6;
+$gun-container-width: 200px;
+
+$head-container-width: $gun-container-left + $gun-container-width;
+
+$tank-height: $head-height + $head-turret-height + $body-container-height;
+
+.area {
+    position: relative;
+    border: 2px solid green;
+
+    width: 1000px;
+    height: $tank-height;
+}
+
+.tank {  
+    position: absolute;  
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+.tank__head-container {
+    position: relative;
+    margin-left: $body-container-width / 3;
+
+    width: $head-container-width; /*Собственно, нам эта ширина не важна, т.к. содержимое контейнера позиционируется абсолютно. Но правильнее будет её указать.*/
+    height: $head-height + $head-turret-height;
+    
+}
+.tank__head-turret {
+    position: absolute;
+    left: ($head-width - $head-turret-width)/2 - 5px;
+    top: 0;  
+    
+    border: 1px solid green;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+
+    background-color: rgb(20, 85, 51);
+
+    width: $head-turret-width;
+    height: $head-turret-height;  
+}
+.tank__head {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    background-image: url("../img/texture_.jpg");
+    border: 1px solid green;
+    border-bottom: 1px solid black;
+    border-top-left-radius: $head-border-top-left-radius;
+    border-top-right-radius: $head-border-top-right-radius;
+
+    width: $head-width;
+    height: $head-height;
+}
+.tank__gun-container {
+    position: absolute;
+    bottom: $gun-container-bottom;
+    left: $gun-container-left;
+
+    display: flex;
+    align-items: center;
+    gap: 0;
+
+    height: $gun-container-height;
+    width: $gun-container-width;
+}
+.gun__mask {
+    background-color: rgb(128, 128, 0);
+
+    width: 20%;
+    height: 100%;
+}
+.gun {
+    background-color: green;
+    width: 70%;
+    height: 70%;
+}
+.gun__muzzle-brake {
+    background-color:rgb(107, 142, 35);
+    width: 10%;
+    height: 86%;
+}
+
+.tank__body-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: $body-container-width;
+    height: $body-container-height;
+
+    /*background-color: goldenrod;*/
+}
+
+.body__body {
+    background-image: url("../img/texture_.jpg");
+
+    border: 1px solid rgb(0, 100, 0);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+    width: 100%;
+    height: $body-height;
+}
+
+.body__tracks-container {
+    position: relative;
+    display: flex;
+
+    width: $tracks-container-width;
+    height: $tracks-container-height;    
+}
+.body__tracks-half-container {
+    width: 50%;
+    height: 100%;  
+    
+    overflow: hidden;
+}
+
+.body__tracks-left {
+    border-left: $tracks-border-width solid black;
+    border-bottom: $tracks-border-width solid black;
+    border-bottom-left-radius: 25px;
+
+    width: 100%;
+    height: $tracks-container-height - 2*$tracks-border-width;
+
+    box-sizing: border-box;
+   
+    transform-origin: 50% 0%;
+    transform: skewX(20deg);
+}
+
+.body__tracks-right {
+    border-right: $tracks-border-width solid black;
+    border-bottom: $tracks-border-width solid black;
+    border-bottom-right-radius: 25px;
+
+    width: 100%;
+    height: $tracks-container-height - 2*$tracks-border-width;
+
+    box-sizing: border-box;
+   
+    transform-origin: 50% 0%;
+    transform: skewX(-20deg);
+}
+
+.tracks-wheel {  
+    display: flex;
+    justify-content: center;
+    //align-items: center;
+    border: 3px solid rgb(47, 79, 79);
+    border-radius: 50%;
+    background: radial-gradient(rgb(200, 130, 35), rgb(213, 180, 77));
+
+    box-sizing: border-box;
+
+    width: $track-wheel-diameter;
+    height: $track-wheel-diameter;
+}
+
+.track-wheel__marker {
+    width: 0px;
+    height: $track-wheel-diameter/2;
+
+    border: 1px solid rgb(170, 108, 21);
+}
+
+.controls-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: $body-container-width;
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">    
+    <title>Tank - step 2</title>
+</head>
+<script src="js/script.js"></script>
+<body>
+    <div class="area">
+        <div class="tank-container">
+            <!--
+            <div id="tank">
+                <div class="tank__head-container">
+                    <div class="tank__head-turret" style="z-index: 1"></div>
+                    <div class="tank__head" style="z-index: 2"></div>
+                    <div class="tank__gun-container" style="z-index: 1">
+                        <div class="gun__mask"></div>
+                        <div class="gun"></div>
+                        <div class="gun__muzzle-brake"></div>
+                    </div>
+                </div>
+                <div class="tank__body-container">
+                    <div class="body__body"></div>
+                    <div class="body__tracks-container">
+                        <div class="body__tracks-half-container">
+                            <div class="body__tracks-left"></div>
+                        </div>
+                        <div class="body__tracks-half-container">
+                            <div class="body__tracks-right"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+        </div>
+    </div>
+
+    <div class="controls-panel">
+        <button id="go-backward" class="controls-panel__button">Назад</button>
+        <button id="go-forward" class="controls-panel__button">Вперёд</button>
+    </div>
+</body>
+<script>
+    const areaWidth = 1000;
+    const area = document.querySelector(".area");
+    const tankContainer = area.querySelector(".tank-container");
+    const controlsPanel = document.querySelector(".controls-panel");
+
+    let animationFrame;
+    let currentTankLeft = 0;
+
+    const areaStyleData = new StyleData({
+        width: areaWidth + "px"
+    });
+
+    const controlsPanelStyleData = new StyleData({
+        width: areaWidth + "px"
+    });
+
+    const tankContainerStyleData = new StyleData({
+            position: "absolute",
+            top: 0,
+            left: currentTankLeft,
+            display: "flex",
+            "flex-direction":"column"
+        });
+
+    const tank = new Tank();
+    tank.render({ parentNode: tankContainer });
+
+    area.setAttribute("style", areaStyleData);
+    controlsPanel.setAttribute("style", controlsPanelStyleData);
+
+    const buttonForward = document.getElementById("go-forward");
+    const buttonBackward = document.getElementById("go-backward");
+    
+    function moveTank(deltaLeft) {
+        currentTankLeft += deltaLeft;
+        if(currentTankLeft < 0) currentTankLeft = 0;
+        tankContainerStyleData.left = currentTankLeft + "px";
+        tankContainer.setAttribute("style", tankContainerStyleData);
+    }
+
+    function animate() {
+        let deltaAngle = 20;
+        if(buttonForward.matches(':active')) { //Это значит, что кнопка нажата.
+            let deltaLeft = Math.PI * tank.trackWheelRadius * deltaAngle / 180;
+            if(currentTankLeft + deltaLeft > areaWidth - tank.fullTankWidth) {
+                deltaLeft = areaWidth - tank.fullTankWidth - currentTankLeft;
+                deltaAngle = (deltaLeft * 180) / (Math.PI * tank.trackWheelRadius);
+            }            
+            moveTank(deltaLeft);
+            tank.rotateWheels(deltaAngle);
+        }
+        else if(buttonBackward.matches(':active')) {
+            let deltaLeft = Math.PI * tank.trackWheelRadius * deltaAngle / 180;
+            if(currentTankLeft - deltaLeft < 0) {
+                deltaLeft = currentTankLeft;
+                deltaAngle = (deltaLeft * 180) / (Math.PI * tank.trackWheelRadius);
+            }
+            moveTank(-deltaLeft);
+            tank.rotateWheels(-deltaAngle);
+        }
+
+        animationFrame = requestAnimationFrame(() => animate())
+    }
+
+    animationFrame = requestAnimationFrame(() => animate())
+</script>
+</html>
